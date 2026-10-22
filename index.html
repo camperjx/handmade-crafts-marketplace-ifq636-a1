@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f6f1" />
+    <meta
+      name="description"
+      content="Discover thoughtful, handmade goods from independent makers around the world."
+    />
+    <title>Goodfolk — Made by hand, found by you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="announcement">A little more meaning in every package <span>✳</span> Free shipping on orders over $75</div>
+
+    <header class="site-header">
+      <a class="wordmark" href="#" aria-label="Goodfolk home">
+        <span class="wordmark-icon" aria-hidden="true">g</span>goodfolk<span class="wordmark-period">.</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#shop">Shop all</a>
+        <a href="#shop" data-nav-category="Home & living">Home & living</a>
+        <a href="#shop" data-nav-category="Jewelry">Jewelry</a>
+        <a href="#shop" data-nav-category="Wearables">Wearables</a>
+        <a href="#our-story">Our makers</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button search-toggle" aria-label="Search products" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+        </button>
+        <button class="icon-button cart-toggle" aria-label="Open shopping bag" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg>
+          <span class="cart-count" aria-live="polite">0</span>
+        </button>
+        <button class="mobile-menu-toggle icon-button" aria-label="Open menu" aria-expanded="false" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> GOOD THINGS, MADE SLOWLY</p>
+          <h1 id="hero-title">Find the feeling<br />of <em>something made.</em></h1>
+          <p class="hero-description">Objects with a little more soul. Made by independent hands, chosen for the way they make you feel.</p>
+          <a class="button button-dark" href="#shop">Explore the collection <span aria-hidden="true">↗</span></a>
+          <div class="hero-note"><span class="maker-avatars" aria-hidden="true"><i>M</i><i>A</i><i>J</i></span><span>Loved by 12,000+ thoughtful homes</span></div>
+        </div>
+        <div class="hero-art">
+          <img
+            src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1100&q=85"
+            alt="Handcrafted ceramic vases and a leafy branch on a sunlit shelf"
+          />
+          <div class="hero-stamp"><span>MADE</span><span>WITH</span><span>INTENTION <b>✳</b></span></div>
+          <div class="hero-caption"><span class="caption-dot"></span> Real hands. Real stories. Really good things.</div>
+        </div>
+        <div class="hero-number" aria-hidden="true">01 / 04</div>
+      </section>
+
+      <section class="trust-strip" aria-label="Our values">
+        <div><span class="trust-icon">✳</span><span>Made by real humans</span></div>
+        <div><span class="trust-icon">♡</span><span>Small-batch, always</span></div>
+        <div><span class="trust-icon">↗</span><span>Good for the long haul</span></div>
+        <div><span class="trust-icon">✴</span><span>Every purchase matters</span></div>
+      </section>
+
+      <section class="shop-section" id="shop">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">A GOOD PLACE TO START</p>
+            <h2>Meet your new <em>favorite thing.</em></h2>
+          </div>
+          <div class="shop-tools">
+            <label class="search-field" for="product-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+              <input id="product-search" type="search" placeholder="Find something lovely..." autocomplete="off" />
+            </label>
+            <label class="sort-control" for="sort-products">Sort:
+              <select id="sort-products" aria-label="Sort products">
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: low to high</option>
+                <option value="price-high">Price: high to low</option>
+                <option value="name">Name: A to Z</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="category-list" role="group" aria-label="Filter products by category">
+          <button class="category-chip active" type="button" data-category="All">Everything <span>08</span></button>
+          <button class="category-chip" type="button" data-category="Home & living">Home & living</button>
+          <button class="category-chip" type="button" data-category="Jewelry">Jewelry</button>
+          <button class="category-chip" type="button" data-category="Wearables">Wearables</button>
+          <button class="category-chip" type="button" data-category="Art & paper">Art & paper</button>
+        </div>
+        <div class="product-grid" id="product-grid" aria-live="polite"></div>
+        <p class="empty-state" hidden>No little lovely things found. Try another search or category.</p>
+        <div class="shop-bottom"><span>GOOD THINGS TAKE TIME <span aria-hidden="true">✳</span></span><a href="#shop">See something you love? Keep looking <span aria-hidden="true">↓</span></a></div>
+      </section>
+
+      <section class="maker-feature" id="our-story">
+        <div class="maker-image">
+          <img
+            src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1000&q=85"
+            alt="A maker's hands working at a desk in warm afternoon light"
+            loading="lazy"
+          />
+          <span class="image-label">A NOTE FROM THE STUDIO</span>
+        </div>
+        <div class="maker-copy">
+          <p class="eyebrow">BEHIND EVERY GOOD THING</p>
+          <h2>Small things,<br />made with <em>big heart.</em></h2>
+          <p>Goodfolk is a little corner of the internet for the things you didn't know you were looking for. Every piece here has a person behind it — and a story worth knowing.</p>
+          <a class="text-link" href="#shop">Get to know our makers <span aria-hidden="true">↗</span></a>
+          <span class="maker-scribble" aria-hidden="true">made with love, always ♡</span>
+        </div>
+      </section>
+
+      <section class="newsletter">
+        <div class="newsletter-flower" aria-hidden="true">✳</div>
+        <p class="eyebrow">A GOOD NOTE, ONCE IN A WHILE</p>
+        <h2>Come on in. <em>Stay a little.</em></h2>
+        <p>New finds, maker stories, and little reminders to buy what you love. Never the noisy stuff.</p>
+        <form class="newsletter-form">
+          <label class="visually-hidden" for="newsletter-email">Your email address</label>
+          <input id="newsletter-email" type="email" placeholder="Your email address" required />
+          <button type="submit" aria-label="Subscribe to the newsletter">Count me in <span aria-hidden="true">↗</span></button>
+        </form>
+        <span class="newsletter-note">No spam, ever. Pinky promise.</span>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="wordmark footer-wordmark" href="#" aria-label="Goodfolk home"><span class="wordmark-icon" aria-hidden="true">g</span>goodfolk<span class="wordmark-period">.</span></a>
+      <span>Made slowly, for the way you live. © 2025 Goodfolk</span>
+      <div><a href="#our-story">Our story</a><a href="#shop">Shop</a><a href="mailto:hello@goodfolk.example">Say hello</a></div>
+    </footer>
+
+    <div class="overlay" hidden></div>
+    <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+      <div class="cart-header">
+        <div><p class="eyebrow">A FEW GOOD THINGS</p><h2 id="cart-title">Your bag <span class="drawer-count">(0)</span></h2></div>
+        <button class="icon-button close-cart" aria-label="Close shopping bag" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+      </div>
+      <p class="shipping-message">You're <strong>$75.00</strong> away from free shipping.</p>
+      <div class="shipping-progress"><span></span></div>
+      <div class="cart-items"></div>
+      <div class="cart-empty"><span aria-hidden="true">♡</span><p>Your bag is feeling a little light.</p><button class="button button-dark continue-shopping" type="button">Find something lovely</button></div>
+      <div class="cart-footer">
+        <div class="subtotal-row"><span>Subtotal</span><strong>$0.00</strong></div>
+        <p>Shipping and taxes calculated at checkout.</p>
+        <button class="button button-dark checkout-button" type="button">Continue to checkout <span aria-hidden="true">↗</span></button>
+        <button class="continue-link continue-shopping" type="button">Keep looking around</button>
+      </div>
+    </aside>
+    <div class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
