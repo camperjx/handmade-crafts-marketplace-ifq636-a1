@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 **Assessment 1.2 (Total Marks **20**)**
 
@@ -22,3 +23,6 @@ In this assignment you will complete the following tasks:
 
 ---
 
+=======
+# handmade-crafts-marketplace-ifq636-a1
+>>>>>>> origin/main
