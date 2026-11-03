@@ -1,5 +1,2 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+// S07 tests use the existing Jest/CRA toolchain. Browser interaction is checked
+// separately with Playwright; no undeclared Testing Library dependency is used.

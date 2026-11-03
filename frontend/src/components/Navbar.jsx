@@ -1,44 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-
-const Navbar = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Your apps name</Link>
-      <div>
-        {user ? (
-          <>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="mr-4">Login</Link>
-            <Link
-              to="/register"
-              className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
-            >
-              Register
-            </Link>
-          </>
-        )}
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
+export default function Navbar() {
+  const { user, status, logout } = useAuth(); const navigate = useNavigate();
+  function signOut() { logout(); navigate('/login', { replace: true }); }
+  return <header className="site-header"><a className="skip-link" href="#main-content">Skip to content</a><Link className="brand" to="/"><span className="brand-mark" aria-hidden="true">h</span><span>Handmade Crafts<br /><small>Marketplace</small></span></Link><nav aria-label="Main navigation">
+    <NavLink to="/products">Browse products</NavLink>
+    {status === 'authenticated' ? <>{user.role === 'seller' && <NavLink to="/seller/products">My products</NavLink>}<NavLink to="/profile">Profile</NavLink><span className="nav-role">{user.role === 'seller' ? 'Seller' : 'Buyer'}</span><button className="button secondary compact" onClick={signOut}>Sign out</button></> : status === 'anonymous' ? <><NavLink to="/login">Sign in</NavLink><Link className="button compact" to="/register">Create account</Link></> : <span className="muted">Checking sign-in</span>}
+  </nav></header>;
+}
