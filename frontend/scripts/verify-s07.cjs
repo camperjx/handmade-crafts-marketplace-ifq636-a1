@@ -140,6 +140,19 @@ async function login(page, email, destination) {
       await screenshot(sellerPage, 's07-08-mobile-profile');
       await buyerPage.goto(base + '/not-a-route'); await waitHeading(buyerPage, 'Page not found');
     });
+    await check('UI14', 'A persisted role invalidation clears an active SPA session', async () => {
+      mongoose.set('strictQuery', true);
+      await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 });
+      const account = await User.findOne({ email: emails[1] }).lean();
+      assert.ok(account);
+      await sellerPage.getByRole('link', { name: 'Browse products', exact: true }).click();
+      await waitHeading(sellerPage, 'Explore handmade products');
+      await User.collection.updateOne({ _id: account._id, email: emails[1] }, { $unset: { role: '' } });
+      await sellerPage.getByRole('link', { name: 'Profile', exact: true }).click();
+      await sellerPage.waitForURL('**/login'); await waitHeading(sellerPage, 'Welcome back');
+      assert.equal(await signedIn(sellerPage), false);
+      await screenshot(sellerPage, 's07-09-account-role-invalidated');
+    });
     report.result = 'pass';
   } catch (error) {
     report.result = 'fail'; if (currentCase) currentCase.status = 'fail';

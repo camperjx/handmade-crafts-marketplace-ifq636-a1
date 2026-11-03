@@ -36,9 +36,15 @@ node frontend/scripts/verify-s07.cjs
 
 Artifacts are actual screenshots and browser-results.json; no HAR, passwords, JWTs or personal browser profile are saved. The course-work run stores them outside this repository under work/result/a1-s7/evidence. These are automation screenshots, not screenshots of a human using Postman.
 
-## Review item pending
+## PR review and actual improvement
 
-Source review found that a protected request returning403 ACCOUNT_ROLE_UNAVAILABLE after an account loses its DB role currently preserves the authenticated UI. This must be distinguished from ordinary403 FORBIDDEN (which should preserve the valid session). A PR comment, regression test, correction and rerun will record the actual improvement; it is not yet claimed fixed here.
+PR: https://github.com/camperjx/handmade-crafts-marketplace-ifq636-a1/pull/3 . Automated self-review comment: review5753887357, anchored to2985d581210ac8e865f46c15327022648884e82c.
+
+Source review found that an authenticated account losing its persisted role returned403 ACCOUNT_ROLE_UNAVAILABLE but retained the authenticated UI. A new regression was executed before the fix and failed: expected anonymous, received authenticated. The response interceptor now clears only the current revision for401 or403 ACCOUNT_ROLE_UNAVAILABLE. Ordinary403 FORBIDDEN and stale responses preserve the valid session.
+
+After the fix: **16 frontend tests passed**, production build passed, and **14 real Chrome cases passed**. UI14 removed the role only from this run's dedicated Seller fixture, navigated within the SPA to Profile and verified logout/token removal. The fixture was then deleted. The delayed-profile case explicitly waits for the held request to complete/cancel. Backend remains40 isolated +13 real DB cases, with no backend logic changed by this review fix.
+
+The inherited README also contained committed conflict markers and obsolete assessment text. It was replaced with actual S07 setup/verification and scope notes, retaining the starter source link and Git history.
 
 ## Remaining assignment boundaries
 

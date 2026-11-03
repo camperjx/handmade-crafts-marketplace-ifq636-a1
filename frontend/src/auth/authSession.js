@@ -84,8 +84,9 @@ export function createAuthSession(api, onChange, storage = browserStorage()) {
     });
     responseInterceptor = api.interceptors.response.use(response => response, error => {
       const config = error.config;
-      if (active && error.response?.status === 401 && config?._hmProtected && config._hmRevision === revision) {
-        logout('Your sign-in has expired. Please sign in again.');
+      const accountUnavailable = error.response?.status === 403 && error.response?.data?.code === 'ACCOUNT_ROLE_UNAVAILABLE';
+      if (active && (error.response?.status === 401 || accountUnavailable) && config?._hmProtected && config._hmRevision === revision) {
+        logout(accountUnavailable ? 'Your account access is unavailable. Please sign in again.' : 'Your sign-in has expired. Please sign in again.');
       }
       return Promise.reject(error);
     });

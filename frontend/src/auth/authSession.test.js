@@ -62,6 +62,13 @@ test('an ordinary business 403 preserves the valid session', async () => {
   const h = harness(); await h.authenticate(); const request = h.api.post('/api/products', {}).catch(error => error);
   h.finish(await h.next(), 403, { code: 'FORBIDDEN' }); await request; expect(h.session.getSnapshot().user).toEqual(buyer); h.session.stop();
 });
+test('an unavailable DB account role clears an already authenticated session', async () => {
+  const h = harness(); await h.authenticate();
+  const request = h.api.get('/api/auth/profile').catch(error => error);
+  h.finish(await h.next(), 403, { code: 'ACCOUNT_ROLE_UNAVAILABLE' }); await request;
+  expect(h.session.getSnapshot().status).toBe('anonymous');
+  expect(h.storage.getItem(TOKEN_KEY)).toBeNull(); h.session.stop();
+});
 test('unsupported server roles never restore an authenticated session', async () => {
   const h = harness('saved-token'); const started = h.session.start(); h.finish(await h.next(), 200, { ...buyer, role: 'admin' }); await started;
   expect(h.session.getSnapshot().status).toBe('unavailable'); expect(() => accountFrom({ ...buyer, role: 'admin' })).toThrow(); h.session.stop();

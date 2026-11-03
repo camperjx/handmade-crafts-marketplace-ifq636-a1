@@ -17,6 +17,9 @@ Date: 2026-11-04 (Australia/Brisbane). Implemented with Codex assistance, follow
 | Logout | Clear local session and invalidate in-flight results. No server-side JWT revocation or global logout is claimed. |
 | UI scope | Public catalogue and Seller products are route shells. Product CRUD/ownership belong to S08/S09; orders to S12 onward. |
 | Origin | Relative /api paths and CRA development proxy. Production static hosting is deferred to S16/S17. |
+| UI typography | Paper/green palette follows the design draft; DM Sans/Playfair names have system/Georgia fallbacks, with no external font fetch required. |
 | Source | User/auth routes/controllers, bcrypt/JWT and React scaffolding extend the supplied course starter. |
 
 S07 does not close HM-15 AC4: a Buyer must still be rejected by a real Seller-only Product action after S08 wiring. Middleware tests are a separate layer of evidence. No Jira updates, prototype completion, deployment or external participant feedback are implied.
+
+Review follow-up: current-session403 ACCOUNT_ROLE_UNAVAILABLE clears session; ordinary business403 and stale failures do not. Proof and remaining boundaries are in s07-verification.md.
