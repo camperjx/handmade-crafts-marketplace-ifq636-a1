@@ -8,6 +8,8 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ProductCatalog from './pages/ProductCatalog';
 import SellerProducts from './pages/SellerProducts';
+import ProductDetail from './pages/ProductDetail';
+import ProductEditor from './pages/ProductEditor';
 import { useAuth } from './context/AuthContext';
 import { postLoginPath, roleHome } from './utils/roleHome';
 import './App.css';
@@ -30,7 +32,10 @@ export default function App() {
     <Route path="/login" element={<AuthEntry><Login /></AuthEntry>} />
     <Route path="/register" element={<AuthEntry><Register /></AuthEntry>} />
     <Route path="/products" element={<ProductCatalog />} />
+    <Route path="/products/:id" element={<ProductDetail />} />
     <Route path="/seller/products" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><SellerProducts /></RoleRoute></ProtectedRoute>} />
+    <Route path="/seller/products/new" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><ProductEditor mode="create" /></RoleRoute></ProtectedRoute>} />
+    <Route path="/seller/products/:id/edit" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><ProductEditor mode="edit" /></RoleRoute></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes></main><footer className="site-footer">Made by people. Chosen with care.</footer></BrowserRouter>;

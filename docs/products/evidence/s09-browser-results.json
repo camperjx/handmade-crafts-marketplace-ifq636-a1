@@ -1,0 +1,988 @@
+{
+  "startedAt": "2026-11-06T09:23:29.100Z",
+  "timezone": "Australia/Brisbane",
+  "sourceCommit": "47a70bebd5810063952c72ba8e6b01950be180e7",
+  "workingTree": "",
+  "node": "v22.23.2",
+  "frontend": "http://localhost:3000",
+  "database": "hm_s08_test",
+  "kind": "Real browser/API/DB; controlled delays and injected failures are explicitly identified",
+  "cases": [
+    {
+      "id": "SETUP-01",
+      "name": "Three real registrations and independent role sessions",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:32.113Z",
+      "status": "pass",
+      "accounts": [
+        {
+          "id": "6aed9c95442623df3f316767",
+          "role": "buyer"
+        },
+        {
+          "id": "6aed9c94442623df3f31675b",
+          "role": "seller"
+        },
+        {
+          "id": "6aed9c94442623df3f316761",
+          "role": "seller"
+        }
+      ],
+      "finishedAt": "2026-11-06T09:23:33.850Z"
+    },
+    {
+      "id": "SEC-01",
+      "name": "Protected create route restores the allowed path after sign-in",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:33.850Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:34.207Z"
+    },
+    {
+      "id": "VAL-UI",
+      "name": "Invalid form preserves fields, focuses the amount and sends no POST",
+      "type": "real UI",
+      "startedAt": "2026-11-06T09:23:34.208Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:34.340Z"
+    },
+    {
+      "id": "WF1-01",
+      "name": "Seller publishes AUD 25.00 and reads a server-owned persisted record",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:34.340Z",
+      "status": "pass",
+      "product": {
+        "id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:34.407Z"
+      },
+      "database": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:34.407Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:34.620Z"
+    },
+    {
+      "id": "WF1-02",
+      "name": "Buyer sees the saved catalogue and detail at AUD 25.00",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:34.620Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:35.018Z"
+    },
+    {
+      "id": "WF1-03",
+      "name": "Refresh and sign-in preserve the saved product and consume the old success notice",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:35.019Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:35.485Z"
+    },
+    {
+      "id": "WF1-04",
+      "name": "Owner updates the saved price to AUD 30.00",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:35.486Z",
+      "status": "pass",
+      "database": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:35.659Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:35.938Z"
+    },
+    {
+      "id": "WF1-05",
+      "name": "Buyer reload reads the saved updated values",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:35.938Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:36.078Z"
+    },
+    {
+      "id": "SEC-02-06",
+      "name": "Buyer and another Seller cannot write; full record and collection count remain unchanged",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:36.078Z",
+      "status": "pass",
+      "before": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:35.659Z",
+        "__v": 0
+      },
+      "after": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:35.659Z",
+        "__v": 0
+      },
+      "beforeCount": 1,
+      "afterCount": 1,
+      "responses": [
+        {
+          "method": "POST",
+          "url": "/api/products",
+          "status": 401,
+          "body": {
+            "code": "UNAUTHENTICATED",
+            "message": "Please sign in again."
+          }
+        },
+        {
+          "method": "PATCH",
+          "url": "/api/products/6aed9c96442623df3f31676e",
+          "status": 401,
+          "body": {
+            "code": "UNAUTHENTICATED",
+            "message": "Please sign in again."
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/products",
+          "status": 403,
+          "body": {
+            "code": "FORBIDDEN",
+            "message": "You do not have access."
+          }
+        },
+        {
+          "method": "PATCH",
+          "url": "/api/products/6aed9c96442623df3f31676e",
+          "status": 403,
+          "body": {
+            "code": "FORBIDDEN",
+            "message": "You do not have access."
+          }
+        },
+        {
+          "method": "PATCH",
+          "url": "/api/products/6aed9c96442623df3f31676e",
+          "status": 403,
+          "body": {
+            "code": "FORBIDDEN",
+            "message": "You do not have access."
+          }
+        },
+        {
+          "method": "PATCH",
+          "url": "/api/products/6aed9c96442623df3f31676e",
+          "status": 403,
+          "body": {
+            "code": "FORBIDDEN",
+            "message": "You do not have access."
+          }
+        }
+      ],
+      "finishedAt": "2026-11-06T09:23:36.633Z"
+    },
+    {
+      "id": "VAL-API",
+      "name": "Invalid fields, unsafe/typed amounts and forged ownership are rejected without writes",
+      "type": "real API/DB",
+      "startedAt": "2026-11-06T09:23:36.633Z",
+      "status": "pass",
+      "responses": [
+        {
+          "fields": [
+            "title"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "title": "Enter text between 1 and 120 characters."
+            }
+          }
+        },
+        {
+          "fields": [
+            "title"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "title": "Enter text between 1 and 120 characters."
+            }
+          }
+        },
+        {
+          "fields": [
+            "description"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "description": "Enter text between 1 and 2000 characters."
+            }
+          }
+        },
+        {
+          "fields": [
+            "category"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "category": "Enter text between 1 and 60 characters."
+            }
+          }
+        },
+        {
+          "fields": [
+            "priceCents"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "priceCents": "Enter a positive whole number of cents."
+            }
+          }
+        },
+        {
+          "fields": [
+            "priceCents"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "priceCents": "Enter a positive whole number of cents."
+            }
+          }
+        },
+        {
+          "fields": [
+            "priceCents"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "priceCents": "Enter a positive whole number of cents."
+            }
+          }
+        },
+        {
+          "fields": [
+            "sellerId"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "_form": "This request includes unsupported fields."
+            }
+          }
+        },
+        {
+          "fields": [
+            "imagePath"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "_form": "This request includes unsupported fields."
+            }
+          }
+        },
+        {
+          "fields": [
+            "status"
+          ],
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "status": "A product can only be archived."
+            }
+          }
+        }
+      ],
+      "before": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:35.659Z",
+        "__v": 0
+      },
+      "after": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:35.659Z",
+        "__v": 0
+      },
+      "beforeCount": 1,
+      "afterCount": 1,
+      "finishedAt": "2026-11-06T09:23:37.426Z"
+    },
+    {
+      "id": "UX-READ",
+      "name": "Loading, read failure and explicit retry are distinct from empty",
+      "type": "controlled delay/failure; recovery uses real API",
+      "startedAt": "2026-11-06T09:23:37.427Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:37.845Z"
+    },
+    {
+      "id": "UX-EMPTY",
+      "name": "Public empty state is rendered without deleting database records",
+      "type": "injected empty response",
+      "startedAt": "2026-11-06T09:23:37.845Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:37.938Z"
+    },
+    {
+      "id": "READ-01",
+      "name": "Malformed and missing IDs have distinct 400 and 404 UI states",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:37.938Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:38.084Z"
+    },
+    {
+      "id": "UX-SERVER-FIELD",
+      "name": "Server field feedback preserves the submitted draft",
+      "type": "injected validation response",
+      "startedAt": "2026-11-06T09:23:38.084Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:38.255Z"
+    },
+    {
+      "id": "UX-UNCONFIRMED",
+      "name": "A committed write with a lost browser response is reconciled without an automatic duplicate",
+      "type": "real POST/DB; browser response deliberately aborted",
+      "startedAt": "2026-11-06T09:23:38.256Z",
+      "status": "pass",
+      "beforeCount": 1,
+      "afterCount": 2,
+      "postAttempts": 1,
+      "product": {
+        "_id": "6aed9c9a442623df3f3167a8",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Ceramic Bowl wf1-9a197583",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:38.418Z",
+        "updatedAt": "2026-11-06T09:23:38.418Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:38.698Z"
+    },
+    {
+      "id": "UX-5XX",
+      "name": "A committed write followed by HTTP 500 still offers uncertain-result reconciliation",
+      "type": "real POST/DB; injected HTTP 500 after commit",
+      "startedAt": "2026-11-06T09:23:38.698Z",
+      "status": "pass",
+      "committedProduct": {
+        "id": "6aed9c9a442623df3f3167ae",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Server-error craft wf1-9a197583-a6fb-45e7-9148-f69a6b6e9878",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:38.844Z",
+        "updatedAt": "2026-11-06T09:23:38.844Z"
+      },
+      "observedAlert": "We could not confirm the result. Check My products before submitting again.Check My products",
+      "beforeCount": 2,
+      "afterCount": 3,
+      "postAttempts": 1,
+      "finishedAt": "2026-11-06T09:23:39.196Z"
+    },
+    {
+      "id": "SES-403",
+      "name": "Ordinary UI API 403 preserves the valid session and retries",
+      "type": "injected FORBIDDEN response; real recovery",
+      "startedAt": "2026-11-06T09:23:39.196Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:39.561Z"
+    },
+    {
+      "id": "RACE-01",
+      "name": "A delayed Seller A list cannot populate Seller B after sign-out",
+      "type": "controlled real-response delay",
+      "startedAt": "2026-11-06T09:23:39.561Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:40.377Z"
+    },
+    {
+      "id": "RACE-03",
+      "name": "Leaving a delayed detail read does not replace a newer product",
+      "type": "controlled real-response delay",
+      "startedAt": "2026-11-06T09:23:40.378Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:40.920Z"
+    },
+    {
+      "id": "RACE-02",
+      "name": "Archive while editing returns 409, preserves the draft and reloads read-only history",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:40.921Z",
+      "status": "pass",
+      "database": {
+        "_id": "6aed9c9d442623df3f3167c3",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Conflict wf1-9a197583-a6fb-45e7-9148-f69a6b6e9878",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "archived",
+        "createdAt": "2026-11-06T09:23:41.043Z",
+        "updatedAt": "2026-11-06T09:23:41.245Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:41.661Z"
+    },
+    {
+      "id": "WF1-06",
+      "name": "Archive cancel and Escape send no PATCH and restore keyboard focus",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:41.662Z",
+      "status": "pass",
+      "beforePatchCount": 2,
+      "afterPatchCount": 2,
+      "finishedAt": "2026-11-06T09:23:42.339Z"
+    },
+    {
+      "id": "WF1-07",
+      "name": "Confirmed archive retains the owner record and removes edit actions",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:42.340Z",
+      "status": "pass",
+      "database": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "archived",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:42.441Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:42.882Z"
+    },
+    {
+      "id": "WF1-08",
+      "name": "Buyer, anonymous and other-owner reads cannot expose an archived product",
+      "type": "real UI/API",
+      "startedAt": "2026-11-06T09:23:42.882Z",
+      "status": "pass",
+      "responses": [
+        {
+          "status": 404,
+          "body": {
+            "code": "PRODUCT_NOT_FOUND",
+            "message": "This product is not available."
+          }
+        },
+        {
+          "status": 404,
+          "body": {
+            "code": "PRODUCT_NOT_FOUND",
+            "message": "This product is not available."
+          }
+        },
+        {
+          "status": 404,
+          "body": {
+            "code": "PRODUCT_NOT_FOUND",
+            "message": "This product is not available."
+          }
+        }
+      ],
+      "finishedAt": "2026-11-06T09:23:43.968Z"
+    },
+    {
+      "id": "WF1-09",
+      "name": "Owner re-login reads archived history and archived writes remain rejected",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:43.972Z",
+      "status": "pass",
+      "responses": [
+        {
+          "status": 409,
+          "body": {
+            "code": "PRODUCT_STATE_CONFLICT",
+            "message": "This product is already archived. Reload the latest details."
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "code": "PRODUCT_STATE_CONFLICT",
+            "message": "This product is already archived. Reload the latest details."
+          }
+        },
+        {
+          "status": 400,
+          "body": {
+            "code": "VALIDATION_ERROR",
+            "message": "Please check the highlighted fields.",
+            "errors": {
+              "status": "A product can only be archived."
+            }
+          }
+        }
+      ],
+      "finishedAt": "2026-11-06T09:23:44.530Z"
+    },
+    {
+      "id": "WF1-10",
+      "name": "A genuine backend process replacement retains saved active and archived data",
+      "type": "real process restart/UI/API/DB",
+      "startedAt": "2026-11-06T09:23:44.531Z",
+      "status": "pass",
+      "pidBefore": 12579,
+      "pidAfter": 12630,
+      "archived": {
+        "_id": "6aed9c96442623df3f31676e",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Handwoven Basket wf1-9a197583 - revised",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 3000,
+        "status": "archived",
+        "createdAt": "2026-11-06T09:23:34.407Z",
+        "updatedAt": "2026-11-06T09:23:42.441Z",
+        "__v": 0
+      },
+      "active": {
+        "_id": "6aed9c9a442623df3f3167a8",
+        "sellerId": "6aed9c94442623df3f31675b",
+        "title": "Ceramic Bowl wf1-9a197583",
+        "description": "Handwoven cotton basket, made with care in Brisbane.",
+        "category": "Textiles",
+        "priceCents": 2500,
+        "status": "active",
+        "createdAt": "2026-11-06T09:23:38.418Z",
+        "updatedAt": "2026-11-06T09:23:38.418Z",
+        "__v": 0
+      },
+      "finishedAt": "2026-11-06T09:23:45.988Z"
+    },
+    {
+      "id": "UX-RESPONSIVE",
+      "name": "390px and 1024px pages retain readable layouts and keyboard-labelled controls",
+      "type": "real browser layout",
+      "startedAt": "2026-11-06T09:23:45.988Z",
+      "status": "pass",
+      "widths": [
+        {
+          "width": 390,
+          "overflow": false
+        },
+        {
+          "width": 1024,
+          "overflow": false
+        }
+      ],
+      "finishedAt": "2026-11-06T09:23:46.598Z"
+    },
+    {
+      "id": "SES-ROLE",
+      "name": "Account-role-unavailable clears session through the existing interceptor",
+      "type": "injected role-unavailable response",
+      "startedAt": "2026-11-06T09:23:46.598Z",
+      "status": "pass",
+      "finishedAt": "2026-11-06T09:23:46.762Z"
+    },
+    {
+      "id": "SES-401",
+      "name": "A deleted fixture account is rejected by a real Product request and loses its session",
+      "type": "real UI/API/DB",
+      "startedAt": "2026-11-06T09:23:46.762Z",
+      "status": "pass",
+      "invalidTokenPublicRead": {
+        "status": 401,
+        "body": {
+          "code": "UNAUTHENTICATED",
+          "message": "Please sign in again."
+        }
+      },
+      "finishedAt": "2026-11-06T09:23:47.130Z"
+    }
+  ],
+  "productRequests": [
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "POST",
+      "path": "/api/products",
+      "status": 201
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "PATCH",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products/not-an-id",
+      "status": 400
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products/000000000000000000000000",
+      "status": 404
+    },
+    {
+      "actor": 0,
+      "method": "POST",
+      "path": "/api/products",
+      "status": 400
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "POST",
+      "path": "/api/products",
+      "status": 500
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 403
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 3,
+      "method": "GET",
+      "path": "/api/products/6aed9c9a442623df3f3167a8",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c9d442623df3f3167c3",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "PATCH",
+      "path": "/api/products/6aed9c9d442623df3f3167c3",
+      "status": 409
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c9d442623df3f3167c3",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c9d442623df3f3167c3",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "PATCH",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 404
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/6aed9c96442623df3f31676e",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products/6aed9c9a442623df3f3167a8",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 0,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 403
+    },
+    {
+      "actor": 2,
+      "method": "GET",
+      "path": "/api/products",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 200
+    },
+    {
+      "actor": 1,
+      "method": "GET",
+      "path": "/api/products/mine",
+      "status": 401
+    }
+  ],
+  "pageErrors": [],
+  "selectedCases": [],
+  "backendPidBeforeRestart": 12579,
+  "browser": "156.0.8078.80",
+  "backendPidAfterRestart": 12630,
+  "status": "pass",
+  "cleanup": {
+    "removedUsers": 2,
+    "removedProducts": 4,
+    "remainingUsers": 0,
+    "remainingProducts": 0
+  },
+  "finishedAt": "2026-11-06T09:23:47.493Z"
+}

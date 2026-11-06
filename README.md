@@ -1,6 +1,6 @@
 # Handmade Crafts Marketplace — IFQ636 Assignment 1
 
-MERN application extending the course authentication starter. S07 implements Buyer/Seller accounts, guarded profile access and verified browser sessions. S08 adds the Product backend: active catalogue/detail, Seller-owned lists and creation, owner-only updates, strict input validation and soft archive. React product pages remain navigation shells until S09; orders are later work.
+MERN application extending the course authentication starter. Buyer/Seller accounts, protected profiles and verified browser sessions support a complete local Product workflow: Seller publication, public catalogue/detail, owner updates and soft archive with retained history. React pages use the persistent Product API. Orders and external EC2 deployment are subsequent work.
 
 ## Local development
 
@@ -19,7 +19,7 @@ The React development app normally opens at http://localhost:3000; it proxies `/
 PORT=3001 HOST=0.0.0.0 BROWSER=none npm start --prefix frontend
 ```
 
-Open `/register`, choose Buyer or Seller, then sign in. Buyer goes to `/products`; Seller goes to `/seller/products`; both can use `/profile`. Existing DB users without a persisted valid role are rejected rather than silently migrated. This application uses `frontend/src`; the legacy root HTML marketing mockup is not the React app.
+Open `/register`, choose Buyer or Seller, then sign in. Buyer goes to `/products`; Seller goes to `/seller/products`; both can use `/profile`. Sellers publish at `/seller/products/new` and edit owned active records at `/seller/products/:id/edit`. Public details use `/products/:id`. Enter prices in AUD, for example 25.00; the API stores 2500 integer cents. Archived products leave public reads but remain read-only in the owner's history. Existing DB users without a persisted valid role are rejected rather than silently migrated. This application uses `frontend/src`; the legacy root HTML marketing mockup is not the React app.
 
 ## Verification
 
@@ -33,15 +33,15 @@ npm run build --prefix frontend
 
 The original auth integration command opts in to UUID-namespaced temporary accounts in the configured development DB. The Product integration command instead requires ignored `backend/.env.s08-test.local` with `PRODUCT_TEST_MONGO_URI` pointing specifically to `hm_s08_test`; it cleans only its generated accounts/products. No real configuration values are committed. See [Product verification](docs/products/s08-verification.md) for the separate process-restart check and evidence boundaries. Browser automation is optional and requires a separately installed Playwright package and Chrome; see [auth verification](docs/auth/s07-verification.md).
 
-See [authentication decisions](docs/auth/s07-auth-decisions.md) and [Product decisions](docs/products/s08-decisions.md) for API/role/session choices and limitations. No server-side JWT revocation, payments, deployment or completed Product/Order UI workflows are claimed.
+See [authentication decisions](docs/auth/s07-auth-decisions.md), [Product backend decisions](docs/products/s08-decisions.md), [UI decisions](docs/products/s09-ui-decisions.md) and [S09-S10 verification](docs/products/s09-s10-verification.md). No server-side JWT revocation, payment, Order workflow, general optimistic locking for active Product edits or external deployment is claimed. A write timeout or HTTP 5xx may follow a committed write: the UI preserves the draft and offers a read-back check instead of automatically retrying.
 
 ## Product API and Postman
 
-Import the [collection](docs/products/postman/s08-products.postman_collection.json) and [blank local environment](docs/products/postman/s08-local.postman_environment.json). Select S08 Local, use the running backend origin (normally `http://127.0.0.1:5001`) and run folders in order. The first request generates fresh local fixture identities; subsequent requests store local tokens. Keep populated environment values private. The export contains no credentials.
+Import the [S09-S10 collection](docs/products/postman/s09-s10-products.postman_collection.json) and [blank local environment](docs/products/postman/s09-s10-local.postman_environment.json). Select S09-S10 Local, use the running backend origin (normally `http://127.0.0.1:5001`) and run folders 00-03 in order. The first request generates fresh local fixture identities; subsequent requests store local tokens. Keep populated environment values private. The export contains no credentials. The complete collection has 38 requests and 114 assertions.
 
 Public GET `/api/products` returns `{products: [...]}` for active products. Seller GET `/api/products/mine` includes their archived records. GET `/api/products/:id` returns `{product: {...}}`; only its authenticated owner can read an archived item. Seller POST creates an active product; owner PATCH updates allowed fields or archives it. Money is positive safe-integer AUD cents. Do not submit owner, initial status, IDs or timestamps.
 
-The Postman collection does not stop/restart the server or directly inspect MongoDB. Those evidence steps must be recorded separately. Full React product interactions remain S09 work.
+The Postman collection does not stop/restart the server or directly inspect MongoDB. The optional Newman wrapper records a separate final DB check and cleans its own generated fixtures. The browser verifier separately checks React interactions, three identities and genuine backend process replacement. Both require explicit opt-in to the dedicated test DB and separately installed test tools; see the verification document for commands. Postman Desktop screenshots and university EC2 validation are separate steps.
 
 ## Source and assistance
 
