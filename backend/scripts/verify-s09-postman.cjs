@@ -50,6 +50,10 @@ let child;
     report.failures = summary.run.failures.map(failure => ({ request: failure.source?.name, assertion: failure.error?.test || failure.error?.name || 'failure' }));
     assert.equal(report.failures.length, 0, 'The Postman collection has failed assertions.');
     assert.equal(report.requests.length, 38); assert.equal(emails.size, 3, 'Expected three generated fixture identities.');
+    // Public fixture IDs must not reveal the generated local password.
+    const publicGuid = summary.environment.get('runId').replace(/^s09s10-/, '');
+    assert.equal(summary.environment.get('testPassword').includes(publicGuid), false);
+    report.independentFixturePassword = true;
     const id = summary.environment.get('productId');
     report.finalProduct = JSON.parse(JSON.stringify(await Product.findById(id).lean()));
     report.afterCount = await Product.countDocuments({});
