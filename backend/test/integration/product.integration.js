@@ -76,10 +76,10 @@ const input = { title: 'Ceramic mug', description: 'Handmade mug', category: 'Ce
     expect(response.status).to.equal(200); expect(response.body.products).to.deep.equal([]);
   });
   it('P05 verifies HM-15 AC4 with real Buyer Product writes and unchanged MongoDB data', async function () {
-    const count = await Product.countDocuments({sellerId:accounts.seller.id}); const before = await snapshot(product.id);
+    const count = await Product.countDocuments({}); const before = await snapshot(product.id);
     expect((await call('post','',accounts.buyer,input)).status).to.equal(403);
     expect((await call('patch','/'+product.id,accounts.buyer,{priceCents:1})).status).to.equal(403);
-    expect(await Product.countDocuments({sellerId:accounts.seller.id})).to.equal(count); expect(await snapshot(product.id)).to.equal(before);
+    expect(await Product.countDocuments({})).to.equal(count); expect(await snapshot(product.id)).to.equal(before);
   });
   it('P06 rejects unauthenticated writes and mine without changing data', async function () {
     const before=await snapshot(product.id);
@@ -88,12 +88,12 @@ const input = { title: 'Ceramic mug', description: 'Handmade mug', category: 'Ce
     expect((await call('get','/mine')).status).to.equal(401); expect(await snapshot(product.id)).to.equal(before);
   });
   it('P07/P10 rejects owner/status/operator smuggling without creating products', async function () {
-    const count=await Product.countDocuments({sellerId:accounts.seller.id});
+    const count=await Product.countDocuments({});
     for(const extra of [{sellerId:accounts.other.id},{status:'active'},{'$set':{status:'active'}},{imagePath:'/private'}]) {
       expect((await call('post','',accounts.seller,{...input,...extra})).status).to.equal(400);
     }
     expect((await call('post','',accounts.seller,[])).status).to.equal(400);
-    expect(await Product.countDocuments({sellerId:accounts.seller.id})).to.equal(count);
+    expect(await Product.countDocuments({})).to.equal(count);
   });
   it('P08/P09 rejects invalid fields and prices without persisting or patching', async function () {
     const before=await snapshot(product.id), count=await Product.countDocuments({sellerId:accounts.seller.id});

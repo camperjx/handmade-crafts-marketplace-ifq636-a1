@@ -36,4 +36,6 @@ Original execution evidence is retained in the course workspace under `work/resu
 
 ## Review
 
-The pull request review, final commit/tree and any resulting changes are recorded in the S08 execution report. Scope and evidence limitations are retained rather than treating a successful build or test stub as deployment or persistence proof.
+[PR #4](https://github.com/camperjx/handmade-crafts-marketplace-ifq636-a1/pull/4) review identified a test-evidence limitation: counting only Seller A products would miss an accidental Buyer-owned insertion. The integration and runtime assertions now compare the whole Product collection count while retaining full target-record equality. Runtime evidence additionally records the tested commit, clean-worktree status, Node version and explicit before/after counts. No production permission failure was observed or fabricated for this review.
+
+The final commit/tree and rerun results are recorded in the S08 execution report. Scope and evidence limitations are retained rather than treating a successful build or test stub as deployment or persistence proof.

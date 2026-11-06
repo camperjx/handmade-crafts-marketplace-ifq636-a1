@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const net = require('net');
 const assert = require('assert/strict');
-const { spawn } = require('child_process');
+const { spawn, execFileSync } = require('child_process');
 const { randomUUID, randomBytes } = require('crypto');
 const mongoose = require('mongoose');
 const { configureProductTestEnvironment, connectProductTestDatabase, cleanProductFixtures } = require('../test/helpers/productFixtures');
@@ -81,6 +81,10 @@ async function login(label,email) {
 
 (async()=>{
   fs.mkdirSync(output,{recursive:true});
+  try {
+    const repo=path.join(__dirname,'../..');
+    report.source={commit:execFileSync('git',['-C',repo,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),workingTreeClean:execFileSync('git',['-C',repo,'status','--porcelain'],{encoding:'utf8'}).trim()==='',node:process.version};
+  } catch { report.source={commit:null,node:process.version}; }
   uri=configureProductTestEnvironment(); await connectProductTestDatabase(uri);
   port=await availablePort(); baseUrl='http://127.0.0.1:'+port;
   report.baseUrl=baseUrl; report.database='hm_s08_test'; report.initialProcessId=await startServer();
@@ -97,11 +101,13 @@ async function login(label,email) {
     assert.ok(!(await request('Other Seller mine','GET','/api/products/mine',other)).body.products.some(row=>row.id===item.id));
   });
   await runCase('R03','HM-15 AC4: Buyer writes receive 403 and do not mutate MongoDB',async()=>{
-    const before=JSON.stringify(await Product.findById(item.id).lean()),count=await Product.countDocuments({sellerId:seller.id});
+    const before=JSON.stringify(await Product.findById(item.id).lean()),count=await Product.countDocuments({});
     assert.equal((await request('Buyer create denied','POST','/api/products',buyer,{title:'Forbidden',description:'No write',category:'Ceramics',priceCents:1})).status,403);
     assert.equal((await request('Buyer patch denied','PATCH','/api/products/'+item.id,buyer,{priceCents:1})).status,403);
-    assert.equal(await Product.countDocuments({sellerId:seller.id}),count);assert.equal(JSON.stringify(await Product.findById(item.id).lean()),before);
+    const afterCount=await Product.countDocuments({});
+    assert.equal(afterCount,count);assert.equal(JSON.stringify(await Product.findById(item.id).lean()),before);
     report.buyerWriteDatabaseUnchanged=true;
+    report.buyerWriteChecks={productCountBefore:count,productCountAfter:afterCount,targetRecordUnchanged:true};
   });
   await runCase('R04','Other Seller modification receives 403 without a write',async()=>{
     const before=JSON.stringify(await Product.findById(item.id).lean());
