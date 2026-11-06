@@ -68,3 +68,16 @@ test('a missing write response is explicitly uncertain rather than a confirmed f
   expect(mutation.error.message).toContain('Check My products');
   expect(mutation.pending).toBe(false);
 });
+test.each([500, 502, 503])('a write HTTP %s response also requires reconciliation before resubmission', async status => {
+  await act(async () => root.render(<Writer />));
+  await act(async () => mutation.run(() => Promise.reject({ response: { status, data: { code: 'SERVER_ERROR', message: 'Please try again.' } } })));
+  expect(mutation.error.uncertain).toBe(true);
+  expect(mutation.error.message).toBe('We could not confirm the result. Check My products before submitting again.');
+  expect(mutation.pending).toBe(false);
+});
+test('a rejected validation write retains its field errors and is not an uncertain outcome', async () => {
+  await act(async () => root.render(<Writer />));
+  await act(async () => mutation.run(() => Promise.reject({ response: { status: 400, data: { message: 'Check the price.', errors: { priceCents: 'Invalid price.' } } } })));
+  expect(mutation.error.uncertain).toBe(false);
+  expect(mutation.error.fields.priceCents).toBe('Invalid price.');
+});

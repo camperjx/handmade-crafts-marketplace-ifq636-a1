@@ -19,7 +19,16 @@ export default function useProductMutation() {
       const value = await operation({ signal: controller.signal });
       return current() ? { ok: true, value } : { ok: false };
     } catch (failure) {
-      if (current()) setError(productFailure(failure, 'We could not confirm the result. Check My products before submitting again.'));
+      if (current()) {
+        const message = 'We could not confirm the result. Check My products before submitting again.';
+        const details = productFailure(failure, message);
+        // A write may have committed even when the server responds with 5xx.
+        if (details.uncertain || details.status >= 500) {
+          details.uncertain = true;
+          details.message = message;
+        }
+        setError(details);
+      }
       return { ok: false };
     } finally {
       if (current()) setPending(false);

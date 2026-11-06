@@ -11,7 +11,7 @@ Date: 6 November 2026, Australia/Brisbane. Scope: S09-S10, extending the S08 Pro
 | Enforce owner eligibility before rendering an editor | Reading an active Product is public and does not confer write permission. The editor checks sellerId; the backend remains authoritative. | HM-33; REQ-F04/N01 |
 | Use a labelled inline archive confirmation | Cancel/Escape sends no PATCH; focus moves to Cancel and returns to the trigger or list heading. Archived owner records remain read-only. | HM-33; S05 active -> archived; S06 maintenance flow |
 | Preserve a draft after 409 | The editor fetches the latest status without replacing the draft. Saving is disabled until the user discards the draft and reloads. | HM-33/34 |
-| Do not automatically repeat an unconfirmed write | The server might have committed before the response was lost. The UI offers My products for reconciliation. | HM-23/33; REQ-N02/N03 |
+| Do not automatically repeat an unconfirmed write | The server might have committed before the response was lost or an HTTP 5xx was returned. The UI preserves the draft and offers My products for reconciliation in either case. | HM-23/33; REQ-N02/N03; PR self-review |
 | Use category placeholders rather than an upload workflow | S08 has no image field. Existing paper/green styles and shared form controls are reused. UI behaviour follows the design; exact pixel reproduction is not required. | HM-27; S06 UI notes |
 | Keep scope boundaries explicit | No orders, payment, stock reservation, reopening or general Product version locking is added. External EC2 verification is S11. | HM-34/35; S12 order rejection follow-up |
 
