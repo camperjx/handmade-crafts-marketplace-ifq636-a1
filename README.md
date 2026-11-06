@@ -1,6 +1,6 @@
 # Handmade Crafts Marketplace — IFQ636 Assignment 1
 
-MERN application extending the course authentication starter. The current S07 increment implements Buyer/Seller accounts, guarded profile access and verified browser sessions. Product pages are navigation shells; product CRUD/ownership and orders are later increments.
+MERN application extending the course authentication starter. S07 implements Buyer/Seller accounts, guarded profile access and verified browser sessions. S08 adds the Product backend: active catalogue/detail, Seller-owned lists and creation, owner-only updates, strict input validation and soft archive. React product pages remain navigation shells until S09; orders are later work.
 
 ## Local development
 
@@ -26,13 +26,22 @@ Open `/register`, choose Buyer or Seller, then sign in. Buyer goes to `/products
 ```sh
 npm test --prefix backend
 npm run test:integration --prefix backend
+npm run test:products:integration --prefix backend
 CI=true npm test --prefix frontend -- --watchAll=false --runInBand
 npm run build --prefix frontend
 ```
 
-The integration command explicitly opts in to creating UUID-namespaced temporary accounts in the configured development DB and cleans only those generated email addresses. Browser automation is optional and requires a separately installed Playwright package and Chrome; see [verification](docs/auth/s07-verification.md).
+The original auth integration command opts in to UUID-namespaced temporary accounts in the configured development DB. The Product integration command instead requires ignored `backend/.env.s08-test.local` with `PRODUCT_TEST_MONGO_URI` pointing specifically to `hm_s08_test`; it cleans only its generated accounts/products. No real configuration values are committed. See [Product verification](docs/products/s08-verification.md) for the separate process-restart check and evidence boundaries. Browser automation is optional and requires a separately installed Playwright package and Chrome; see [auth verification](docs/auth/s07-verification.md).
 
-See [authentication decisions](docs/auth/s07-auth-decisions.md) for API/role/session choices, actual checks and limitations. No server-side JWT revocation, payments, production deployment or completed Product/Order workflows are claimed.
+See [authentication decisions](docs/auth/s07-auth-decisions.md) and [Product decisions](docs/products/s08-decisions.md) for API/role/session choices and limitations. No server-side JWT revocation, payments, deployment or completed Product/Order UI workflows are claimed.
+
+## Product API and Postman
+
+Import the [collection](docs/products/postman/s08-products.postman_collection.json) and [blank local environment](docs/products/postman/s08-local.postman_environment.json). Select S08 Local, use the running backend origin (normally `http://127.0.0.1:5001`) and run folders in order. The first request generates fresh local fixture identities; subsequent requests store local tokens. Keep populated environment values private. The export contains no credentials.
+
+Public GET `/api/products` returns `{products: [...]}` for active products. Seller GET `/api/products/mine` includes their archived records. GET `/api/products/:id` returns `{product: {...}}`; only its authenticated owner can read an archived item. Seller POST creates an active product; owner PATCH updates allowed fields or archives it. Money is positive safe-integer AUD cents. Do not submit owner, initial status, IDs or timestamps.
+
+The Postman collection does not stop/restart the server or directly inspect MongoDB. Those evidence steps must be recorded separately. Full React product interactions remain S09 work.
 
 ## Source and assistance
 
