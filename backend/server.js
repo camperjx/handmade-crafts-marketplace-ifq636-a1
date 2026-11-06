@@ -8,16 +8,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api', (req, res) => res.status(404).json({ code: 'API_NOT_FOUND', message: 'This API route does not exist.' }));
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);
   if (error.type === 'entity.parse.failed') return res.status(400).json({ code: 'INVALID_JSON', message: 'Send a valid JSON object.' });
   if (error.type === 'entity.too.large') return res.status(413).json({ code: 'BODY_TOO_LARGE', message: 'This request is too large.' });
+  if (error.name === 'ValidationError') {
+    const errors = {};
+    for (const field of ['title', 'description', 'category', 'priceCents', 'status']) {
+      if (error.errors?.[field]) errors[field] = 'Enter a valid value.';
+    }
+    if (!Object.keys(errors).length) errors._form = 'Please check the submitted values.';
+    return res.status(400).json({ code: 'VALIDATION_ERROR', message: 'Please check the highlighted fields.', errors });
+  }
+  if (error.name === 'CastError') return res.status(400).json({ code: 'VALIDATION_ERROR', message: 'Please check the submitted values.' });
   return res.status(500).json({ code: 'SERVER_ERROR', message: 'We could not complete this request. Please try again.' });
 });
 async function start() {
   if (!process.env.MONGO_URI || !process.env.JWT_SECRET) throw new Error('Missing required server configuration.');
   await connectDB();
   await require('./models/User').init();
+  await require('./models/Product').init();
   const port = process.env.PORT || 5001;
   app.listen(port, () => console.log('Server running on port ' + port));
 }
