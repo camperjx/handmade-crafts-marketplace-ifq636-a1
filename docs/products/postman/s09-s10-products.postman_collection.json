@@ -30,7 +30,7 @@
                 "exec": [
                   "const guid = pm.variables.replaceIn('{{$guid}}');",
                   "pm.environment.set('runId', 's09s10-' + guid);",
-                  "pm.environment.set('testPassword', 'S09-S10-' + guid + '-aA1!');",
+                  "pm.environment.set('testPassword', 'S09-S10-' + pm.variables.replaceIn('{{$guid}}') + '-aA1!');",
                   "pm.environment.set('missingProductId', guid.replace(/-/g, '').slice(0, 24));",
                   "pm.environment.unset('sellerAId');",
                   "pm.environment.unset('sellerBId');",

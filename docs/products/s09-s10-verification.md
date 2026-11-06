@@ -61,3 +61,7 @@ Optional `S09_CASE_FILTER=SETUP-01,UX-5XX` runs only the specified cases and is 
 - Jira live status was not changed: no Jira tool is connected and the supplied URL was inaccessible to the available web tool. The course workspace contains a per-ticket English update draft.
 - Figma playback/sharing/local-backup gaps and Postman Desktop screenshots keep their independent pending status. These browser screenshots are implementation evidence.
 - The merged SHA is recorded in the course execution report. Later documentation/evidence commits do not change the tested application runtime; compare `frontend/src`, `backend` runtime and dependency files if main changes.
+
+## Postman fixture follow-up
+
+The exported fixture password now uses a separate random GUID rather than the public run ID. The wrapper asserts that independence without writing either password value to the report. Source `7a4675e1472c135bc1f12a0a47d699dbb7f168f5` passed the same 38 requests / 114 assertions and final DB/scoped-cleanup checks. [Final Newman report](evidence/s09-newman-final.json) preserves this follow-up separately from the original run. No application runtime or dependency file changed.
