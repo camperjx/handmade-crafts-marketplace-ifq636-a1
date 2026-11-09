@@ -21,6 +21,20 @@ PORT=3001 HOST=0.0.0.0 BROWSER=none npm start --prefix frontend
 
 Open `/register`, choose Buyer or Seller, then sign in. Buyer goes to `/products`; Seller goes to `/seller/products`; both can use `/profile`. Sellers publish at `/seller/products/new` and edit owned active records at `/seller/products/:id/edit`. Public details use `/products/:id`. Enter prices in AUD, for example 25.00; the API stores 2500 integer cents. Archived products leave public reads but remain read-only in the owner's history. Existing DB users without a persisted valid role are rejected rather than silently migrated. This application uses `frontend/src`; the legacy root HTML marketing mockup is not the React app.
 
+## Production hosting
+
+Express can serve the React production build and API from one origin. Set `MONGO_URI`, `JWT_SECRET`, `PORT` and `NODE_ENV=production` in private runtime configuration. Build before starting:
+
+```sh
+npm ci --prefix frontend --include=dev
+npm run build --prefix frontend
+NODE_ENV=production PORT=5002 npm start --prefix backend
+```
+
+Use http://localhost:5002 for local production verification; EC2 uses its separately approved port. No CRA process or development proxy is needed. GET `/api/health` returns 200/ready only while the database driver is connected, otherwise 503/unavailable. It does not replace a real Product workflow check. Known frontend deep links serve the application; unknown API paths, missing assets and private server files stay unavailable. Production does not enable cross-origin API access.
+
+See the [S11 deployment runbook](docs/deployment/s11-runbook.md) for release packaging, Ubuntu startup, verification commands and evidence boundaries. Preparing a build does not mean the university EC2 is deployed.
+
 ## Verification
 
 ```sh
