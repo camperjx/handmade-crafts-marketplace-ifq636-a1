@@ -32,7 +32,10 @@ if (production) {
   const frontendPaths = [
     '/', '/login', '/register', '/profile', '/products',
     '/seller/products', '/seller/products/new',
+    '/orders', '/seller/orders',
     /^\/products\/[a-f\d]{24}\/?$/i,
+    /^\/products\/[a-f\d]{24}\/request\/?$/i,
+    /^\/orders\/[a-f\d]{24}\/?$/i,
     /^\/seller\/products\/[a-f\d]{24}\/edit\/?$/i,
   ];
   app.get(frontendPaths, (req, res, next) => {

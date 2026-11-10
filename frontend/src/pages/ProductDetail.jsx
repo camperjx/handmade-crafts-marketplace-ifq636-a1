@@ -20,6 +20,7 @@ function Detail({ id }) {
       <div className="product-detail-copy"><p className="eyebrow">{product.category}</p><h1>{product.title}</h1><span className={`product-badge ${product.status}`}>{product.status === 'archived' ? 'Archived' : 'Active'}</span><p className="product-price detail-price">{formatAud(product.priceCents)}</p><p className="product-description">{product.description}</p>
         {product.status === 'archived' && <p className="feedback info" role="status">This product is archived. It is retained in your history and cannot be edited or reopened.</p>}
         <div className="actions"><button className="button secondary" onClick={resource.reload}>Reload details</button>{owner && product.status === 'active' && <Link className="button" to={`/seller/products/${product.id}/edit`}>Edit product</Link>}</div>
+        {product.status === 'active' && <div className="actions">{user?.role === 'buyer' && <Link className="button" to={`/products/${product.id}/request`}>Request this item</Link>}{!user && <Link className="button" to="/login" state={{ from: { pathname: `/products/${product.id}/request` } }}>Sign in to request</Link>}</div>}
       </div>
     </div>}</ProductReadState>
   </section>;
