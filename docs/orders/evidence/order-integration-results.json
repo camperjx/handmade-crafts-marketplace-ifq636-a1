@@ -1,0 +1,84 @@
+{
+  "startedAt": "2026-11-10T12:48:56.749Z",
+  "sourceCommit": "9892866c56ab8fcd16625be809de0d60d06907b4",
+  "workingTree": "",
+  "database": "hm_s12_s14_test",
+  "node": "v22.23.2",
+  "cases": [
+    {
+      "name": "TC07 starts with genuinely empty related-account lists",
+      "status": "passed"
+    },
+    {
+      "name": "TC09 creates a server-owned persistent snapshot and safe DTO",
+      "status": "passed"
+    },
+    {
+      "name": "TC03/04 rejects wrong-role and cross-owner writes without changing data",
+      "status": "passed"
+    },
+    {
+      "name": "TC08/09 rejects invalid quantities, payloads and unsafe totals without saving",
+      "status": "passed"
+    },
+    {
+      "name": "TC05/12 distinguishes malformed, missing and unrelated resources",
+      "status": "passed"
+    },
+    {
+      "name": "TC10 persists accepted then completed and returns the same result to both roles",
+      "status": "passed"
+    },
+    {
+      "name": "TC11 preserves terminal and illegal transitions and rejects malformed updates",
+      "status": "passed"
+    },
+    {
+      "name": "TC13 permits exactly one truly competing accept/reject and preserves snapshots",
+      "status": "passed"
+    },
+    {
+      "name": "TC02 rejects expired and deleted-user credentials without a write",
+      "status": "passed"
+    },
+    {
+      "name": "TC06/14 retains request snapshots after rename/reprice/archive and refuses new requests",
+      "status": "passed"
+    }
+  ],
+  "race": {
+    "orderId": "6af312bdbaa0d6bc5455f4c6",
+    "before": "pending",
+    "responses": [
+      {
+        "httpStatus": 200,
+        "code": "",
+        "status": "accepted"
+      },
+      {
+        "httpStatus": 409,
+        "code": "ORDER_STATE_CONFLICT",
+        "status": null
+      }
+    ],
+    "after": "accepted"
+  },
+  "snapshot": {
+    "orderId": "6af312bebaa0d6bc5455f4da",
+    "productArchived": true,
+    "originalTitle": "s14-af0717c8-c2e0-41ad-913e-539dd47100f2 Ceramic mug",
+    "unitPriceCents": 2500,
+    "totalCents": 5000,
+    "preserved": true
+  },
+  "cleanup": {
+    "removedUsers": 4,
+    "removedProducts": 2,
+    "removedOrders": 7,
+    "remainingUsers": 0,
+    "remainingProducts": 0,
+    "remainingOrders": 0
+  },
+  "finishedAt": "2026-11-10T12:49:03.170Z",
+  "status": "pass"
+}

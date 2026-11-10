@@ -10,6 +10,10 @@ import ProductCatalog from './pages/ProductCatalog';
 import SellerProducts from './pages/SellerProducts';
 import ProductDetail from './pages/ProductDetail';
 import ProductEditor from './pages/ProductEditor';
+import OrderRequestForm from './pages/OrderRequestForm';
+import BuyerOrders from './pages/BuyerOrders';
+import SellerOrders from './pages/SellerOrders';
+import OrderDetail from './pages/OrderDetail';
 import { useAuth } from './context/AuthContext';
 import { postLoginPath, roleHome } from './utils/roleHome';
 import './App.css';
@@ -33,6 +37,10 @@ export default function App() {
     <Route path="/register" element={<AuthEntry><Register /></AuthEntry>} />
     <Route path="/products" element={<ProductCatalog />} />
     <Route path="/products/:id" element={<ProductDetail />} />
+    <Route path="/products/:id/request" element={<ProtectedRoute><RoleRoute allowedRoles={['buyer']}><OrderRequestForm /></RoleRoute></ProtectedRoute>} />
+    <Route path="/orders" element={<ProtectedRoute><RoleRoute allowedRoles={['buyer']}><BuyerOrders /></RoleRoute></ProtectedRoute>} />
+    <Route path="/seller/orders" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><SellerOrders /></RoleRoute></ProtectedRoute>} />
+    <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
     <Route path="/seller/products" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><SellerProducts /></RoleRoute></ProtectedRoute>} />
     <Route path="/seller/products/new" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><ProductEditor mode="create" /></RoleRoute></ProtectedRoute>} />
     <Route path="/seller/products/:id/edit" element={<ProtectedRoute><RoleRoute allowedRoles={['seller']}><ProductEditor mode="edit" /></RoleRoute></ProtectedRoute>} />

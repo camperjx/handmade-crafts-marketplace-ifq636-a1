@@ -24,6 +24,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api', (req, res) => res.status(404).json({ code: 'API_NOT_FOUND', message: 'This API route does not exist.' }));
 
 if (production) {
@@ -31,7 +32,10 @@ if (production) {
   const frontendPaths = [
     '/', '/login', '/register', '/profile', '/products',
     '/seller/products', '/seller/products/new',
+    '/orders', '/seller/orders',
     /^\/products\/[a-f\d]{24}\/?$/i,
+    /^\/products\/[a-f\d]{24}\/request\/?$/i,
+    /^\/orders\/[a-f\d]{24}\/?$/i,
     /^\/seller\/products\/[a-f\d]{24}\/edit\/?$/i,
   ];
   app.get(frontendPaths, (req, res, next) => {
@@ -51,7 +55,7 @@ app.use((error, req, res, next) => {
   if (error.type === 'entity.too.large') return res.status(413).json({ code: 'BODY_TOO_LARGE', message: 'This request is too large.' });
   if (error.name === 'ValidationError') {
     const errors = {};
-    for (const field of ['title', 'description', 'category', 'priceCents', 'status']) {
+    for (const field of ['title', 'description', 'category', 'priceCents', 'status', 'productId', 'quantity', 'expectedStatus', 'unitPriceCents', 'totalCents', 'productTitle']) {
       if (error.errors?.[field]) errors[field] = 'Enter a valid value.';
     }
     if (!Object.keys(errors).length) errors._form = 'Please check the submitted values.';
@@ -70,6 +74,7 @@ async function start() {
   await connectDB();
   await require('./models/User').init();
   await require('./models/Product').init();
+  await require('./models/Order').init();
   const server = app.listen(port, () => console.log('Server running on port ' + port));
   server.once('error', async () => {
     console.error('Server could not listen. Check the configured port and existing process.');

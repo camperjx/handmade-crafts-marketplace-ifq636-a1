@@ -1,0 +1,60 @@
+{
+  "checkedAtUtc": "2026-11-10T12:55:24.394478+00:00",
+  "dateBrisbane": "2026-11-10",
+  "scope": "Local S12-S14; no EC2 update",
+  "runtimeTestCommit": "9892866c56ab8fcd16625be809de0d60d06907b4",
+  "browserTestCommit": "a31b207f0d59f785ddb9c5bb5eaeb62002f24fc1",
+  "sourceDifference": [
+    "backend/scripts/verify-s14-browser.cjs"
+  ],
+  "results": {
+    "backend": 202,
+    "frontendTests": 97,
+    "frontendSuites": 10,
+    "productIntegration": 22,
+    "orderIntegration": 10,
+    "browser": 18,
+    "routing": 27,
+    "newmanRequests": 39,
+    "newmanAssertions": 58,
+    "failures": 0
+  },
+  "restart": {
+    "beforePid": 31895,
+    "afterPid": 31936,
+    "productPersisted": true
+  },
+  "cleanup": {
+    "integration": {
+      "removedUsers": 4,
+      "removedProducts": 2,
+      "removedOrders": 7,
+      "remainingUsers": 0,
+      "remainingProducts": 0,
+      "remainingOrders": 0
+    },
+    "browser": {
+      "removedUsers": 4,
+      "removedProducts": 3,
+      "removedOrders": 7,
+      "remainingUsers": 0,
+      "remainingProducts": 0,
+      "remainingOrders": 0
+    },
+    "postman": {
+      "removedUsers": 4,
+      "removedProducts": 1,
+      "removedOrders": 3,
+      "remainingUsers": 0,
+      "remainingProducts": 0,
+      "remainingOrders": 0
+    }
+  },
+  "pending": [
+    "Jira live updates",
+    "Postman Desktop GUI evidence",
+    "native Figma/Draw.io revisions and playback",
+    "S15 review and S16-S17 release/deployment"
+  ],
+  "runtimeSourceFilesMatched": 80
+}

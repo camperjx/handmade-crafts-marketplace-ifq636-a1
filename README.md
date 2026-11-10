@@ -1,6 +1,8 @@
 # Handmade Crafts Marketplace — IFQ636 Assignment 1
 
-MERN application extending the course authentication starter. Buyer/Seller accounts, protected profiles and verified browser sessions support a complete local Product workflow: Seller publication, public catalogue/detail, owner updates and soft archive with retained history. React pages use the persistent Product API. Orders and external EC2 deployment are subsequent work.
+MERN application extending the course authentication starter. Buyer/Seller accounts support two local workflows: Product publication/read/update/archive, and persistent requests that a related Seller accepts, rejects or completes. The server derives identity/pricing, saves historical snapshots and guards state transitions. Requests do not take payment or reserve stock.
+
+The university EC2 trial recorded at http://3.26.221.223:5001/products runs `iteration1-demo-20261109-01` (`d2b46ab`). It contains WF1 only. This branch adds WF2 locally; it has not been deployed to EC2. Confirm the current university-assigned IP and marking access before a later release.
 
 ## Local development
 
@@ -35,6 +37,12 @@ Use http://localhost:5002 for local production verification; EC2 uses its separa
 
 See the [S11 deployment runbook](docs/deployment/s11-runbook.md) for release packaging, Ubuntu startup, verification commands and evidence boundaries. Preparing a build does not mean the university EC2 is deployed.
 
+## Order requests
+
+Buyer: open an active product and choose Request this item (`/products/:id/request`), then follow My requests (`/orders`). Seller: use Sales requests (`/seller/orders`) to open `/orders/:id`, accept/reject a pending request or complete an accepted one. Both roles read the same persisted status. Archived products cannot receive new requests; existing requests retain their original name and price.
+
+Create requests contain only productId and numeric quantity 1–100. Seller updates contain status and expectedStatus. Both identity and safe-integer AUD prices/totals are derived by the backend. Related-account APIs and error contracts are documented in [Order API](docs/orders/s12-api.md) and [Order decisions](docs/orders/s12-decisions.md).
+
 ## Verification
 
 ```sh
@@ -47,7 +55,17 @@ npm run build --prefix frontend
 
 The original auth integration command opts in to UUID-namespaced temporary accounts in the configured development DB. The Product integration command instead requires ignored `backend/.env.s08-test.local` with `PRODUCT_TEST_MONGO_URI` pointing specifically to `hm_s08_test`; it cleans only its generated accounts/products. No real configuration values are committed. See [Product verification](docs/products/s08-verification.md) for the separate process-restart check and evidence boundaries. Browser automation is optional and requires a separately installed Playwright package and Chrome; see [auth verification](docs/auth/s07-verification.md).
 
-See [authentication decisions](docs/auth/s07-auth-decisions.md), [Product backend decisions](docs/products/s08-decisions.md), [UI decisions](docs/products/s09-ui-decisions.md) and [S09-S10 verification](docs/products/s09-s10-verification.md). No server-side JWT revocation, payment, Order workflow, general optimistic locking for active Product edits or external deployment is claimed. A write timeout or HTTP 5xx may follow a committed write: the UI preserves the draft and offers a read-back check instead of automatically retrying.
+See [authentication decisions](docs/auth/s07-auth-decisions.md), [Product backend decisions](docs/products/s08-decisions.md), [UI decisions](docs/products/s09-ui-decisions.md), [S09-S10 verification](docs/products/s09-s10-verification.md) and [S12-S14 verification](docs/orders/s14-verification.md). No server-side JWT revocation, payment, inventory reservation, server idempotency or general optimistic locking for active Product edits is claimed. Product read→Order creation is not serialised with overlapping Product edits/archive. A write timeout or HTTP 5xx may follow a committed write: the UI preserves the draft and offers read-back instead of automatically retrying.
+
+Order tests require ignored `backend/.env.s12-s14-test.local`: ORDER_TEST_MONGO_URI must point specifically to `hm_s12_s14_test`; ORDER_TEST_JWT_SECRET must be a separate private test secret of at least 32 characters. The launcher and verifiers require explicit opt-in:
+
+```sh
+npm run test:orders:integration --prefix backend
+npm run build --prefix frontend
+RUN_ORDER_DB_TESTS=1 node backend/scripts/start-s12-test-server.cjs --production
+```
+
+The isolated preview is http://127.0.0.1:5004; use Ctrl+C to stop its child. It does not change backend/.env or the EC2 release. Routing, Chrome and Newman runners stop their own processes and clean their scoped fixtures. Browser automation and Newman are separate optional tools, not added to application dependencies; see the verification record for their module-path options.
 
 ## Product API and Postman
 
@@ -57,8 +75,10 @@ Public GET `/api/products` returns `{products: [...]}` for active products. Sell
 
 The Postman collection does not stop/restart the server or directly inspect MongoDB. The optional Newman wrapper records a separate final DB check and cleans its own generated fixtures. The browser verifier separately checks React interactions, three identities and genuine backend process replacement. Both require explicit opt-in to the dedicated test DB and separately installed test tools; see the verification document for commands. Postman Desktop screenshots and university EC2 validation are separate steps.
 
+For WF2 use the [39-request Order collection](docs/orders/postman/s12-s14-orders.postman_collection.json) and [blank environment](docs/orders/postman/s12-s14-local.postman_environment.json). The new runner generates four independent temporary account passwords in memory and retains only sanitised request/assertion summaries. Never publish a populated environment or raw Newman report.
+
 ## Source and assistance
 
-Authentication/bcrypt/JWT and the React/Express/Mongoose scaffold extend [the supplied course starter](https://github.com/nahaQUT/sampleapp_IFQ636). S07 was implemented and tested with Codex assistance under the user's explicit instruction. Retain accurate course GenAI disclosure; these technical records are not a student reflection or a claim of human user research.
+Authentication/bcrypt/JWT and the React/Express/Mongoose scaffold extend [the supplied course starter](https://github.com/nahaQUT/sampleapp_IFQ636). Development, testing and documentation have involved generative-tool assistance. Retain accurate course GenAI disclosure; these technical records are not a student reflection, proof of independent authorship or a claim of human user research.
 
 The inherited README contained committed merge-conflict markers and older assessment/admin/CI descriptions. This operational README replaces those with the actual current increment; previous content remains in Git history. Current assignment requirements come from the course's current criteria.

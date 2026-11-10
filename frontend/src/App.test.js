@@ -20,3 +20,14 @@ test('restores valid Product deep links while rejecting path and role escapes', 
     expect(postLoginPath('seller', path)).toBe('/seller/products');
   }
 });
+test('restores role-appropriate request routes and normalises a single trailing slash', () => {
+  const id='0123456789abcdef01234567';
+  expect(postLoginPath('buyer','/orders/')).toBe('/orders');
+  expect(postLoginPath('seller','/seller/orders')).toBe('/seller/orders');
+  for(const role of ['buyer','seller']) expect(postLoginPath(role,`/orders/${id}`)).toBe(`/orders/${id}`);
+  expect(postLoginPath('buyer',`/products/${id}/request`)).toBe(`/products/${id}/request`);
+  expect(postLoginPath('seller',`/products/${id}/request`)).toBe('/seller/products');
+  expect(postLoginPath('buyer','/seller/orders')).toBe('/products');
+  expect(postLoginPath('seller','/orders')).toBe('/seller/products');
+  expect(postLoginPath('buyer','/orders/bad')).toBe('/products');
+});
