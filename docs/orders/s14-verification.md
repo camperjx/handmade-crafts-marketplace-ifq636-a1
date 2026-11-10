@@ -2,7 +2,11 @@
 
 Date: 10 November 2026, Australia/Brisbane. Scope: local WF1/WF2, dedicated test databases and real production serving. University EC2 remains the S11 trial.
 
-Initial execution passed 200 backend tests, 97 frontend tests (10 suites), 10 real Order integration cases, 22 existing Product integration cases, 17 Chrome scenarios and 27 production routing checks. The exported Postman collection passed 39 requests / 58 assertions through Newman. Additional direct-model checks are included in the final regression. Final source identifiers and sanitised results will be retained in `evidence/` after that regression; do not interpret these initial numbers as a run against an unspecified final commit.
+Final regression at clean commit `9892866c56ab8fcd16625be809de0d60d06907b4` passed **202 backend tests**, **97 frontend tests in 10 suites**, **10 real Order integration cases**, **22 existing Product integration cases**, **27 production HTTP checks**, and **39 Postman requests / 58 assertions** through Newman. The strengthened Chrome verifier at clean commit `a31b207f0d59f785ddb9c5bb5eaeb62002f24fc1` passed **18 scenarios**. The only source difference is that browser verifier; application runtime and build are unchanged. These are separate runs, not one cumulative test count.
+
+See [verification summary](evidence/verification-summary.json), [Order integration](evidence/order-integration-results.json), [Chrome](evidence/browser-results.json), [production HTTP](evidence/routing-results.json) and [Newman](evidence/newman-results.json). The final documentation/evidence commit adds records only and must be distinguished from the tested commits.
+
+Actual Chrome evidence includes [completed request](evidence/buyer-completed.png), [stale-state reconciliation](evidence/conflict-reloaded.png) and [uncertain creation](evidence/uncertain-create.png). Node PID 31895 was replaced by 31936; both Product and Order values were unchanged. All scoped fixtures were removed, with zero remaining.
 
 ## Reproduction
 
