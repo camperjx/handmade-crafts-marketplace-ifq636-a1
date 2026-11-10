@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { validateOrderCreate, validateOrderStatus, canTransition, STATUSES, positiveMoney } = require('../utils/orderValidation');
+const Order = require('../models/Order');
 describe('Order input and state rules', function () {
   const input = { productId: 'a'.repeat(24), quantity: 2 };
   for (const quantity of [1, 2, 100]) it('accepts bounded integer quantity ' + quantity, function () {
@@ -21,5 +22,16 @@ describe('Order input and state rules', function () {
   it('rejects unsafe monetary results without rounding them into valid totals', function () {
     expect(positiveMoney(2500 * 2)).to.equal(true);
     for (const value of [0, -1, 1.5, '2500', Number.MAX_SAFE_INTEGER * 2]) expect(positiveMoney(value)).to.equal(false);
+  });
+  it('validates the actual model default and rejects an inconsistent saved total', async function () {
+    const valid={buyerId:'a'.repeat(24),sellerId:'b'.repeat(24),productId:'c'.repeat(24),productTitle:'Mug',quantity:2,unitPriceCents:2500,totalCents:5000};
+    const order=new Order(valid);await order.validate();expect(order.status).to.equal('pending');
+    let rejected=false;try{await new Order({...valid,totalCents:1}).validate();}catch(error){rejected=Boolean(error.errors.totalCents);}
+    expect(rejected).to.equal(true);
+  });
+  it('protects the model quantity boundary even outside the HTTP controller', async function () {
+    const order=new Order({buyerId:'a'.repeat(24),sellerId:'b'.repeat(24),productId:'c'.repeat(24),productTitle:'Mug',quantity:101,unitPriceCents:1,totalCents:101});
+    let rejected=false;try{await order.validate();}catch(error){rejected=Boolean(error.errors.quantity);}
+    expect(rejected).to.equal(true);
   });
 });

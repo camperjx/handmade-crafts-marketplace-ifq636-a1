@@ -1,0 +1,30 @@
+# S12-S14 verification
+
+Date: 10 November 2026, Australia/Brisbane. Scope: local WF1/WF2, dedicated test databases and real production serving. University EC2 remains the S11 trial.
+
+Initial execution passed 200 backend tests, 97 frontend tests (10 suites), 10 real Order integration cases, 22 existing Product integration cases, 17 Chrome scenarios and 27 production routing checks. The exported Postman collection passed 39 requests / 58 assertions through Newman. Additional direct-model checks are included in the final regression. Final source identifiers and sanitised results will be retained in `evidence/` after that regression; do not interpret these initial numbers as a run against an unspecified final commit.
+
+## Reproduction
+
+Use Node 22 and the existing backend/frontend lockfiles. The private Order test configuration is described in README. From the repository root:
+
+```sh
+npm test --prefix backend
+npm run test:products:integration --prefix backend
+npm run test:orders:integration --prefix backend
+CI=true npm test --prefix frontend -- --watchAll=false --runInBand
+npm run build --prefix frontend
+RUN_ORDER_DB_TESTS=1 node backend/scripts/verify-s14-routing.cjs
+RUN_ORDER_DB_TESTS=1 node backend/scripts/verify-s14-browser.cjs
+RUN_ORDER_DB_TESTS=1 node backend/scripts/verify-s14-postman.cjs
+```
+
+The browser runner requires a separately installed Playwright module (`PLAYWRIGHT_MODULE`) and Chrome (`CHROME_PATH`, defaults to the macOS installed application). Newman similarly accepts `NEWMAN_MODULE`. These optional test tools are not runtime dependencies. All three verifiers accept `S14_ARTIFACT_DIR`, resolved against the repository root; default outputs are ignored under artifacts/. They use ports 5005, 5004 and 5006 respectively and never stop a pre-existing listener.
+
+## Evidence boundaries
+
+Unit HTTP cases use isolated model stubs. Integration cases use `hm_s12_s14_test`; existing Product regression retains `hm_s08_test`. Chrome runs the actual production build, creates independent sessions, injects controlled failures after real writes, verifies a true Node process replacement and cleans temporary fixtures. Snapshot history and concurrency also have direct MongoDB checks. Newman summaries never include passwords, login responses, Authorization headers or runtime configuration.
+
+The deleted-account integration check explicitly requires a successful login and a confirmed deletion before testing the old credential. A preparatory version lacked those preconditions; only the corrected run establishes that case.
+
+Postman Desktop activation timed out and its process was unavailable; no Desktop screenshot or native collection run is claimed. Jira live changes, native Figma/Draw.io edits, formal S15 review and EC2 deployment of this increment remain separate work. Relevant private planning/evidence material lives in the sibling coursework result directory, outside this repository.
