@@ -6,7 +6,7 @@ Send JSON request bodies with `Content-Type: application/json`. Protected routes
 
 | Method / route | Access | Request body | Success |
 | --- | --- | --- | --- |
-| `POST /api/auth/register` | Public | `name`, `email`, `password`; optional `role`, `address` | `201` User |
+| `POST /api/auth/register` | Public | `name`, `email`, `password`; optional `role` | `201` User |
 | `POST /api/auth/login` | Public | `email`, `password` | `200` User with `token` |
 | `GET /api/auth/profile` | Authenticated | None | `200` User |
 | `PUT /api/auth/profile` | Authenticated | One or more of `name`, `email`, `address` | `200` User |

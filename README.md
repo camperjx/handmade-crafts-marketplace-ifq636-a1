@@ -56,7 +56,9 @@ NODE_ENV=production PORT=5002 npm start --prefix backend
 
 Open http://localhost:5002. Production does not require a React development server. Root `npm start` starts development services and is not the production entry point.
 
-Recorded EC2 application URL: http://3.26.221.223:5001/products. Availability and the currently deployed version have not been reverified; the EC2 public address may change. Deployment requires the approved host configuration and a frontend build matching the backend source version.
+Deployment URL: http://16.179.36.22:5001/products. Availability depends on the university instance and approved network access.
+
+Release: `v1.0.1`.
 
 `GET /api/health` returns `200` while the database driver is connected and `503` otherwise. A healthy response alone does not verify a complete user workflow. Unknown API paths return JSON `404`; private server files are not served.
 
