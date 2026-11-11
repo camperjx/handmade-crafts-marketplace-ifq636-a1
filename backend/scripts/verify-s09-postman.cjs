@@ -8,14 +8,19 @@ const { spawn, execFileSync } = require('child_process');
 const mongoose = require('mongoose');
 const { configureProductTestEnvironment, connectProductTestDatabase, cleanProductFixtures } = require('../test/helpers/productFixtures');
 const Product = require('../models/Product');
-const newman = require(process.env.S09_NEWMAN_MODULE || 'newman');
 
 const repo = path.resolve(__dirname, '../..');
 const output = path.resolve(process.env.S09_POSTMAN_ARTIFACT_DIR || 'artifacts/s09-postman');
 const port = Number(process.env.S09_BACKEND_PORT || 5001);
 const baseUrl = `http://127.0.0.1:${port}`;
-const collectionPath = path.join(repo, 'docs/products/postman/s09-s10-products.postman_collection.json');
-const environment = JSON.parse(fs.readFileSync(path.join(repo, 'docs/products/postman/s09-s10-local.postman_environment.json')));
+const collectionPath = path.resolve(repo, process.env.PRODUCT_POSTMAN_COLLECTION || '.local/postman/products.collection.json');
+const environmentPath = path.resolve(repo, process.env.PRODUCT_POSTMAN_ENVIRONMENT || '.local/postman/products.environment.json');
+if (![collectionPath, environmentPath].every(file => fs.existsSync(file) && fs.statSync(file).isFile())) {
+  console.error('Local Product Postman inputs are required. Configure PRODUCT_POSTMAN_COLLECTION and PRODUCT_POSTMAN_ENVIRONMENT, or provide the ignored .local/postman files.');
+  process.exit(1);
+}
+const newman = require(process.env.S09_NEWMAN_MODULE || 'newman');
+const environment = JSON.parse(fs.readFileSync(environmentPath));
 environment.values.find(item => item.key === 'baseUrl').value = baseUrl;
 const emails = new Set();
 const report = { startedAt: new Date().toISOString(), sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8' }).trim(), node: process.version, runner: 'Newman', database: 'hm_s08_test', baseUrl, requests: [], assertions: [] };

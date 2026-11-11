@@ -2,10 +2,15 @@ const fs=require('fs');const path=require('path');const assert=require('assert/s
 const {configureOrderTestEnvironment,connectOrderTestDatabase,fixtureScope}=require('../test/helpers/orderFixtures');
 const Order=require('../models/Order');const Product=require('../models/Product');
 const {repo,sourceInfo,artifactDir,start,stop}=require('./lib/orderRuntime.cjs');
+const collectionPath=path.resolve(repo,process.env.ORDER_POSTMAN_COLLECTION || '.local/postman/orders.collection.json');
+const environmentPath=path.resolve(repo,process.env.ORDER_POSTMAN_ENVIRONMENT || '.local/postman/orders.environment.json');
+if(![collectionPath,environmentPath].every(file=>fs.existsSync(file)&&fs.statSync(file).isFile())){
+ console.error('Local Order Postman inputs are required. Configure ORDER_POSTMAN_COLLECTION and ORDER_POSTMAN_ENVIRONMENT, or provide the ignored .local/postman files.');
+ process.exit(1);
+}
 const output=artifactDir('s14-postman'),scope=fixtureScope();let server;
 const report={startedAt:new Date().toISOString(),...sourceInfo(),runner:'Newman',database:'hm_s12_s14_test',requests:[],assertions:[]};
-const collectionPath=path.join(repo,'docs/orders/postman/s12-s14-orders.postman_collection.json');
-const environment=JSON.parse(fs.readFileSync(path.join(repo,'docs/orders/postman/s12-s14-local.postman_environment.json')));
+const environment=JSON.parse(fs.readFileSync(environmentPath));
 const put=(key,value)=>{const entry=environment.values.find(row=>row.key===key);if(entry)entry.value=value;else environment.values.push({key,value,enabled:true});};
 for(const [label,role] of [['sellerA','seller'],['sellerB','seller'],['buyerA','buyer'],['buyerB','buyer']]){const identity=scope.identity(label,role);put(label+'Email',identity.email);put(label+'Password',identity.password);}
 put('runId',scope.prefix);

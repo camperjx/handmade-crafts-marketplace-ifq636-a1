@@ -43,3 +43,9 @@ id_ed25519
 
 # Local verification exports
 /artifacts/
+
+# Local documentation and verification inputs
+/docs/*
+!/docs/api.md
+/.local/
+/doc_bak/
